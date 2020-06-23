@@ -1,0 +1,60 @@
+version: '2.0'
+services:
+
+  nginx:
+    image: "nginx"
+    ports:
+      - "8000:80"
+    volumes:
+      - web:/var/www/html
+      - ./nginx:/etc/nginx/conf.d
+    networks:
+      - "annaleSR"
+
+  php:
+    image: "php"
+    build:
+      context: php
+      dockerfile: dockerfile
+    volumes:
+      - web:/var/www/html
+    networks:
+      - "annaleSR"
+
+  mariadb:
+    image: "mariadb"
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+    networks:
+      - "annaleSR"
+
+  phpmyadmin:
+    image: "phpmyadmin/phpmyadmin"
+    ports:
+      - "8001:80"
+    environment:
+      PMA_HOST: "mariadb"
+    networks:
+      - "annaleSR"
+
+  ftp:
+    image: "atmoz/sftp"
+    ports:
+     - "8002:22"
+    volumes:
+      - ./ftp/users.conf:/etc/sftp/users.conf:ro
+      - web:/home
+
+  dns:
+    image: "resystit/bind9"
+    ports: 
+      - "8053:53"
+    volumes:
+      - "./dns/named.conf:/etc/bind/named.conf:ro"
+      - "./dns/master:/etc/bind/master:ro"
+
+networks:
+  annaleSR:
+
+volumes:
+  web:

@@ -1,0 +1,3 @@
+FROM debian
+
+RUN apt-get install ssh openssh-server proftpd -y
