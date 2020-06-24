@@ -1,0 +1,5 @@
+Ajouter à la config ftp
+    jules:jules:1003:100:html
+
+Ajouter user à mysql
+    docker exec -it evalSR_juin2020_mariadb_1 CREATE USER 'jules'@'localhost' IDENTIFIED BY 'jules';

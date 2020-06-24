@@ -4,7 +4,7 @@ services:
   nginx:
     image: "nginx"
     ports:
-      - "8000:80"
+      - "80:80"
     volumes:
       - web:/var/www/html
       - ./nginx:/etc/nginx/conf.d
@@ -48,7 +48,8 @@ services:
   dns:
     image: "resystit/bind9"
     ports: 
-      - "8053:53"
+      - "53:53/tcp"
+      - "53:53/udp"
     volumes:
       - "./dns/named.conf:/etc/bind/named.conf:ro"
       - "./dns/master:/etc/bind/master:ro"
